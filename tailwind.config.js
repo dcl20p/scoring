@@ -12,31 +12,52 @@ export default {
     theme: {
         extend: {
             colors: {
+                background: "hsl(var(--background) / <alpha-value>)",
+                foreground: "hsl(var(--foreground) / <alpha-value>)",
                 primary: {
-                    DEFAULT: "#0A84FF",
-                    50: "#E6F3FF",
-                    100: "#CCE7FF",
-                    200: "#99CFFF",
-                    300: "#66B7FF",
-                    400: "#339FFF",
-                    500: "#0A84FF",
-                    600: "#0068CC",
-                    700: "#004C99",
-                    800: "#003366",
-                    900: "#001933",
-                    950: "#000F1F",
+                    DEFAULT: "hsl(var(--primary) / <alpha-value>)",
+                    foreground:
+                        "hsl(var(--primary-foreground) / <alpha-value>)",
                 },
+                secondary: {
+                    DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
+                    foreground:
+                        "hsl(var(--secondary-foreground) / <alpha-value>)",
+                },
+                muted: {
+                    DEFAULT: "hsl(var(--muted) / <alpha-value>)",
+                    foreground: "hsl(var(--muted-foreground) / <alpha-value>)",
+                },
+                accent: {
+                    DEFAULT: "hsl(var(--accent) / <alpha-value>)",
+                    foreground: "hsl(var(--accent-foreground) / <alpha-value>)",
+                },
+                destructive: {
+                    DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
+                    foreground:
+                        "hsl(var(--destructive-foreground) / <alpha-value>)",
+                },
+                card: {
+                    DEFAULT: "hsl(var(--card) / <alpha-value>)",
+                    foreground: "hsl(var(--card-foreground) / <alpha-value>)",
+                },
+                popover: {
+                    DEFAULT: "hsl(var(--popover) / <alpha-value>)",
+                    foreground:
+                        "hsl(var(--popover-foreground) / <alpha-value>)",
+                },
+                border: "hsl(var(--border) / <alpha-value>)",
+                input: "hsl(var(--input) / <alpha-value>)",
+                ring: "hsl(var(--ring) / <alpha-value>)",
                 sidebar: {
-                    DEFAULT: "var(--sidebar-background, #f8fafc)",
-                    foreground: "var(--sidebar-foreground, #334155)",
-                    primary: "var(--sidebar-primary, #0891b2)",
-                    "primary-foreground":
-                        "var(--sidebar-primary-foreground, #f8fafc)",
-                    accent: "var(--sidebar-accent, #f1f5f9)",
-                    "accent-foreground":
-                        "var(--sidebar-accent-foreground, #0f172a)",
-                    border: "var(--sidebar-border, #e2e8f0)",
-                    ring: "var(--sidebar-ring, #94a3b8)",
+					DEFAULT: "hsl(var(--sidebar-background) / <alpha-value>)",
+					foreground: "hsl(var(--sidebar-foreground) / <alpha-value>)",
+					primary: "hsl(var(--sidebar-primary) / <alpha-value>)",
+					'primary-foreground': "hsl(var(--sidebar-primary-foreground) / <alpha-value>)",
+					accent: "hsl(var(--sidebar-accent) / <alpha-value>)",
+					'accent-foreground': "hsl(var(--sidebar-accent-foreground) / <alpha-value>)",
+					border: "hsl(var(--sidebar-border) / <alpha-value>)",
+					ring: "hsl(var(--sidebar-ring) / <alpha-value>)"
                 },
                 brand: {
                     blue: "#0A84FF",
@@ -48,9 +69,8 @@ export default {
             },
             fontFamily: {
                 sans: [
-                    "Mulish",
-                    // "Inter",
-					// "Poppins",
+					"Mulish",
+                    "Inter",
                     "ui-sans-serif",
                     "system-ui",
                     "-apple-system",
@@ -88,7 +108,12 @@ export default {
             backdropBlur: {
                 xs: "2px",
             },
+            borderRadius: {
+                lg: "var(--radius)",
+                md: "calc(var(--radius) - 2px)",
+                sm: "calc(var(--radius) - 4px)",
+            },
         },
     },
-    plugins: [],
+    plugins: [require("@tailwindcss/forms"), require("tailwindcss-animate")],
 };

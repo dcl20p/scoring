@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
@@ -16,9 +17,12 @@ Route::middleware('guest')->group(function () {
         return view('auth.login');
     })->name('login');
 
-    Route::get('/register', function() {
-        return view('auth.register');
-    })->name('register');
+    Route::get('/register', [RegisteredController::class, 'create'])->name('register');
+    Route::post('/register', [RegisteredController::class, 'store'])->name('register.store');
+
+    Route::get('/register/{school_code}', function() {
+        return view('auth.register-member');
+    })->name('register-member');
 
     Route::get('/forgot-password', function() {
         return view('auth.forgot-password');

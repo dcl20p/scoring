@@ -2,7 +2,7 @@
     <div class="w-full max-w-md animate-fade-in">
         <x-auths.title />
 
-        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+        <div class="bg-white rounded-xl shadow-md border border-gray-100 p-8">
             <div class="space-y-6 animate-slide-up">
                 <div class="text-center space-y-2 mb-2">
                     <h1 class="text-2xl font-semibold tracking-tigh">

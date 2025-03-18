@@ -12,15 +12,29 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    const ROLE_SUPER_ADMIN = 'SUPER_ADMIN';
+    const ROLE_ADMIN = 'ADMIN';
+    const ROLE_TEACHER = 'TEACHER';
+    const ROLE_STUDENT = 'STUDENT';
+
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
+        'phone',
         'password',
+        'role',
+        'school_id',
+        'employee_id',
+        'student_id',
+        'bio',
+        'avatar',
+        'is_active',
     ];
 
     /**
@@ -30,7 +44,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'remember_token'
     ];
 
     /**
@@ -43,6 +57,115 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
+    }
+
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getFullNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
+
+    const ROLES = [
+        'SUPER_ADMIN' => 'SUPER_ADMIN',
+        'ADMIN' => 'ADMIN',
+        'TEACHER' => 'TEACHER',
+        'STUDENT' => 'STUDENT',
+    ];
+
+    /**
+     * Check if the user has a specific role.
+     *
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
+
+    /**
+     * Check if the user is a super admin.
+     *
+     * @return bool
+     */
+    public function isSuperAdmin()
+    {
+        return $this->role === self::ROLES['SUPER_ADMIN'];
+    }
+
+    /**
+     * Check if the user is an admin.
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->role === self::ROLES['ADMIN'];
+    }
+
+    /**
+     * Check if the user is a teacher.
+     *
+     * @return bool
+     */
+    public function isTeacher()
+    {
+        return $this->role === self::ROLES['TEACHER'];
+    }
+
+    /**
+     * Check if the user is a student.
+     *
+     * @return bool
+     */
+    public function isStudent()
+    {
+        return $this->role === self::ROLES['STUDENT'];
+    }
+
+    /**
+     * Get the educational institution that the user belongs to.
+     */
+    public function schools()
+    {
+        return $this->belongsTo(School::class, 'school_id');
+    }
+
+    /**
+     * Get the employee that the user represents.
+     */
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'student_id');
+    }
+
+    /**
+     * Get the courses taught by this teacher.
+     */
+    public function coursesTaught()
+    {
+        return $this->hasMany(CourseEnrollment::class, 'teacher_id');
+    }
+
+    /**
+     * Get the assignments created by this user.
+     */
+    public function assignmentsCreated()
+    {
+        return $this->hasMany(Assignment::class, 'created_by');
+    }
+
+    /**
+     * Get the grades given by this user.
+     */
+    public function gradesGiven()
+    {
+        return $this->hasMany(Grade::class, 'graded_by');
     }
 }

@@ -38,7 +38,7 @@
     @endphp
 
     @if ($showNavbar)
-        @include('layouts.navigation')
+        @include('layouts.partials.customer.navigation')
     @else
         <div class="fixed top-4 right-4 z-30">
             <x-lang />
@@ -50,7 +50,7 @@
     </main>
 
     @if ($showNavbar)
-        @include('layouts.footer')
+        @include('layouts.partials.customer.footer')
     @endif
     
     <!-- Toast Notifications Container -->
