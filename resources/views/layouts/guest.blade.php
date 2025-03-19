@@ -14,13 +14,13 @@
 
     <!-- Styles / Scripts -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/guest.css', 'resources/js/guest.js'])
     @else
         <link rel="stylesheet" href="{{ asset('css/fallback.css') }}">
     @endif
     
     <!-- Alpine.js -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+    {{-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script> --}}
 </head>
 <body class="font-sans antialiased bg-gradient-to-br from-white to-gray-100 min-h-screen flex flex-col">
    <!-- Enhanced decorative background effect -->
