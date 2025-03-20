@@ -234,6 +234,9 @@
         @apply text-blue-700;
     }
     
+    .dark .simplebar-scrollbar:before {
+        @apply bg-white;
+    }
 
     .left-sidebar .scroll-sidebar {
         height: calc(100vh - 180px);
