@@ -29,7 +29,7 @@
                         <span class="absolute inline-flex items-center justify-center text-white text-[11px] font-medium animate-ping bg-orange-400 opacity-75 w-2 h-2 rounded-full"></span>
                     </span>
                 </a>
-                <div class="card dark:bg-gray-800 hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max w-[300px] hidden z-[12]"
+                <div class="card dark:bg-gray-dark hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max w-[300px] hidden z-[12]"
                     aria-labelledby="hs-dropdown-custom-icon-trigger">
                     <div class="p-2">
                         <div class="flex items-center justify-between px-6 py-3 border-b border-gray-100 dark:border-gray-700 notification-header">
@@ -38,9 +38,7 @@
                                 <i class="ti ti-x text-lg"></i>
                             </button>
                         </div>
-                        {{-- <ul class="list-none flex flex-col max-h-[350px] overflow-y-auto custom-scrollbar"> --}}
-                        <ul class="list-none flex flex-col p-2 max-h-[350px] overflow-y-auto w-[300px] sm:w-[350px]
-                            [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300">
+                        <ul class="list-none flex flex-col p-2 max-h-[350px] overflow-y-auto w-[300px] sm:w-[350px] scrollbar-custom">
                             @for ($i = 0; $i < 10; $i++)      
                                 <li>
                                     <a href="#" class="py-3 px-6 block rounded-lg border-b border-gray-100 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-white/5 transition-colors">

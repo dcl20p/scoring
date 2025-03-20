@@ -1,0 +1,258 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --background: 210 40% 98%;
+        --foreground: 222.2 84% 4.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 222.2 84% 4.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
+        --primary: 211 100% 42.9%;
+        --primary-foreground: 210 40% 98%;
+        --secondary: 210 40% 96.1%;
+        --secondary-foreground: 222.2 47.4% 11.2%;
+        --muted: 210 40% 96.1%;
+        --muted-foreground: 215.4 16.3% 46.9%;
+        --accent: 210 40% 96.1%;
+        --accent-foreground: 222.2 47.4% 11.2%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 211 100% 58%;
+        --radius: 1.25rem;
+    }
+
+    .dark {
+        --background: 220, 43%, 11%;
+        --foreground: 210 40% 96%;
+        --ring: 211 100% 58%;
+        --card: 222.2 84% 4.9%;
+        --card-foreground: 210 40% 98%;
+    }
+
+    *,
+    ::before,
+    ::after {
+        box-sizing: border-box;
+        border-width: 0;
+        border-style: solid;
+        border-color: #e7ecf0;
+    }
+
+    html {
+        font-size: 16px;
+    }
+
+    body {
+        color: hsl(var(--foreground));
+        background-color: hsl(var(--background));
+        line-height: inherit;
+        margin: 0;
+    }
+
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    input:-webkit-autofill:active {
+        transition: background-color 5000s ease-in-out 0s;
+        -webkit-text-fill-color: hsl(var(--foreground));
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-size: inherit;
+        font-weight: inherit;
+    }
+
+    a {
+        text-decoration: inherit;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        opacity: 1;
+        color: #707a82;
+    }
+}
+
+@layer components {
+    /* Theme toggle icon transitions */
+    .theme-toggle-icon {
+        @apply transition-all duration-300 absolute;
+    }
+    
+    .dark .theme-toggle-icon {
+        @apply transition-all duration-300;
+    }
+    
+    /* Light mode - show moon, hide sun */
+    body:not(.dark) .moon-icon {
+        @apply opacity-100 transform-none;
+    }
+    
+    body:not(.dark) .sun-icon {
+        @apply opacity-0 rotate-90;
+    }
+    
+    /* Dark mode - show sun, hide moon */
+    .dark .moon-icon {
+        @apply opacity-0 -rotate-90;
+    }
+    
+    .dark .sun-icon {
+        @apply opacity-100 transform-none;
+    }
+
+    .open.hs-overlay-open\:translate-x-0 {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+            rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+            skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+            scaleY(var(--tw-scale-y));
+        -webkit-transform: translate(
+                var(--tw-translate-x),
+                var(--tw-translate-y)
+            )
+            rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+            skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+            scaleY(var(--tw-scale-y));
+        -moz-transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+            rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+            skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+            scaleY(var(--tw-scale-y));
+        -ms-transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+            rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+            skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+            scaleY(var(--tw-scale-y));
+        -o-transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+            rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+            skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+            scaleY(var(--tw-scale-y));
+        transition: transform 0.2s ease-out;
+    }
+    
+    .open .hs-overlay-open\:translate-x-0 {
+        --tw-translate-x: 0px;
+        transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+            rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+            skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+            scaleY(var(--tw-scale-y));
+        -webkit-transform: translate(
+                var(--tw-translate-x),
+                var(--tw-translate-y)
+            )
+            rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+            skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+            scaleY(var(--tw-scale-y));
+        -moz-transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+            rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+            skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+            scaleY(var(--tw-scale-y));
+        -ms-transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+            rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+            skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+            scaleY(var(--tw-scale-y));
+        -o-transform: translate(var(--tw-translate-x), var(--tw-translate-y))
+            rotate(var(--tw-rotate)) skewX(var(--tw-skew-x))
+            skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x))
+            scaleY(var(--tw-scale-y));
+        transition: transform 0.2s ease-out;
+    }
+
+    .hs-overlay-backdrop {
+        left: 0;
+        top: 0;
+        background: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        height: 100%;
+        width: 100%;
+        z-index: 50;
+        transition: opacity 0.2s ease-out;
+    }
+
+    .hs-dropdown-menu {
+        --tw-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        --tw-shadow-colored: 0 0.5rem 1rem var(--tw-shadow-color);
+        box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+        -webkit-transform: translateY(-10px);
+        -moz-transform: translateY(-10px);
+        -ms-transform: translateY(-10px);
+        -o-transform: translateY(-10px);
+        -webkit-transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+        -moz-transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+        -ms-transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+        -o-transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+}
+
+    .hs-dropdown.open > .hs-dropdown-open\:opacity-100 {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 0s;
+    }
+
+    .hs-dropdown.open > .hs-dropdown-menu > .hs-dropdown-open\:opacity-100 {
+        opacity: 1;
+        transform: translateY(0);
+        transition-delay: 2s;
+    }
+    .sidebar-scroll {
+        height: calc(100% - 50px);
+    }
+
+    .sidebar-item .sidebar-link::before {
+        @apply absolute top-0 bottom-0 left-[-16px] content-[""] w-0 h-full z-[-1] rounded-r-[24px] transition-all duration-300 ease-in-out;
+    }
+
+    .sidebar-item .sidebar-link::before {
+        @apply bg-blue-50;
+    }
+
+    .sidebar-item .sidebar-link:hover::before {
+        width: calc(100% + 16px);
+    }
+
+    .sidebar-item .sidebar-link.active::before {
+        width: calc(100% + 16px);
+    }
+
+    .sidebar-item .sidebar-link.active {
+        @apply text-blue-700;
+    }
+
+    .sidebar-item .sidebar-link:hover {
+        @apply text-blue-700;
+    }
+    
+
+    .left-sidebar .scroll-sidebar {
+        height: calc(100vh - 180px);
+    }
+
+    .dark .text-gray-500,
+    .dark .text-gray-700 {
+        color: #cbd5e1;
+    }
+}
+
+@layer utilities {
+    .scrollbar-custom {
+        @apply [&::-webkit-scrollbar]:w-2 
+               [&::-webkit-scrollbar-track]:rounded-full 
+               [&::-webkit-scrollbar-track]:bg-gray-100 
+               dark:[&::-webkit-scrollbar-track]:bg-gray-800
+               [&::-webkit-scrollbar-thumb]:rounded-full 
+               [&::-webkit-scrollbar-thumb]:bg-gray-300
+               dark:[&::-webkit-scrollbar-thumb]:bg-gray-600
+    }
+}
