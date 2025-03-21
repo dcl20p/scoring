@@ -4,7 +4,7 @@
 
 <x-guest-layout>
     <div class="max-w-5xl w-full animate-fade-in">
-        <x-auths.title />
+        <x-tabs.title />
         
         <div class="bg-white rounded-xl shadow-md border border-gray-100 p-8">
             <div class="space-y-6 animate-slide-up">
