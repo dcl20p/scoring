@@ -29,6 +29,8 @@
     :class="{ 'dark': darkMode }"
     class="font-san antialiased scrollbar-custom min-h-screen ">
 
+    <x-flash-message />
+    
     <div class="flex p-5 xl:pr-0">
         @include('layouts.partials.manager.sidebar')
 

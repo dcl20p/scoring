@@ -147,7 +147,7 @@ return [
     'string'                 => 'Trường :attribute phải là một chuỗi kí tự.',
     'timezone'               => 'Trường :attribute phải là một múi giờ hợp lệ.',
     'ulid'                   => 'Trường :attribute phải là một ULID hợp lệ.',
-    'unique'                 => 'Trường :attribute đã có trong cơ sở dữ liệu.',
+    'unique'                 => 'Trường :attribute đã tồn tại trong cơ sở dữ liệu.',
     'uploaded'               => 'Trường :attribute tải lên thất bại.',
     'uppercase'              => 'Trường :attribute phải là chữ in hoa.',
     'url'                    => 'Trường :attribute không giống với định dạng một URL.',

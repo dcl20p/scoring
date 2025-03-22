@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\School;
+use App\Models\Student;
 use App\Models\User;
+use DB;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Validation\ValidationException;
 
 class RegisteredController extends Controller
 {
@@ -35,21 +40,48 @@ class RegisteredController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function registerAdmin(Request $request)
     {
         $this->validator($request->all())->validate();
 
         try {
-            event(new Registered($user = User::create($request->all())));
+            DB::beginTransaction();
+            
+            $school = School::create([
+                'name' => $request->school,
+                'email'=> $request->school_email,
+                'province' => $request->province,
+                'district'=> $request->district,
+                'website'=> $request->website,
+                'type'=> $request->school_type,
+
+            ]);
+
+            $user = User::create([
+                'school_id' => $school->id,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'phone' => $request->phone,
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
+            ]);
+            event(new Registered($user ));
+
+            DB::commit();
+
+            Auth::login($user);
+    
+            return redirect(route('dashboard', absolute: false))
+                ->with('success', __('auth.registration_success'));
+
         } catch (\Exception $e) {
+            DB::rollBack();
             Log::error('Registration error: ' . $e->getMessage());
-            return redirect()->back()->withInput($request->except('password', 'password_confirmation'))
-                ->withErrors(['registration_code' => $e->getMessage()]);
+            return redirect()->back()
+                ->withInput($request->except('password', 'password_confirmation'))
+                ->with('error', __('auth.registration_failed'));
         }
-
-        Auth::login($user);
-
-        return redirect('/admin/dashboard');
     }
 
     protected function validator(array $data)
@@ -57,9 +89,23 @@ class RegisteredController extends Controller
         $rules = [
             'first_name' => ['required', 'string', 'max:255'],
             'last_name'=> ['required', 'string','max:255'],
-            'email'=> ['required', 'string','email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'confirmed', Password::min(8)],
+            'email'=> ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'confirmed', 
+                Password::min(8)
+                    ->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+                    ->uncompromised(5)
+            ],
+            'phone' => ['nullable', 'string', 'max:20'],
             'role' => ['required', 'string', 'in:SUPER_ADMIN,ADMIN,TEACHER,STUDENT'],
+            'school' => ['required', 'string', 'max:100'],
+            'province' => ['nullable', 'string', 'max:50'],
+            'district' => ['nullable', 'string', 'max:50'],
+            'school_email'=> ['required', 'string', 'email', 'max:255', 'unique:schools,email'],
+            'school_type' => ['required', 'string', 'in:UNIVERSITY,SCHOOL,COLLEGE,VOCATIONAL,OTHER'],
+            'website' => ['nullable', 'string', 'max:150'],
         ];
 
         // Super admin registration is a special case handled separately

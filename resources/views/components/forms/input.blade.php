@@ -22,7 +22,7 @@
             value="{{ old($name) }}"
         >
         <button 
-            type="button"
+            type="button" tabindex="-1"
             @click="showPassword = !showPassword"
             class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
         >
@@ -46,15 +46,15 @@
         password: '',
         passwordRequirements: {
             length: false,
-            uppercase: false,
-            lowercase: false,
-            number: false
+            mixedcase: false,
+            number: false,
+            symbol: false,
         },
         checkPasswordRequirements() {
             this.passwordRequirements.length = this.password.length >= 8;
-            this.passwordRequirements.uppercase = /[A-Z]/.test(this.password);
-            this.passwordRequirements.lowercase = /[a-z]/.test(this.password);
+            this.passwordRequirements.mixedcase = /[A-Z]/.test(this.password) && /[a-z]/.test(this.password);
             this.passwordRequirements.number = /[0-9]/.test(this.password);
+            this.passwordRequirements.symbol = /[!@#$%^&*()_+\-=\[\]{};:\\|,.<>\/?]/.test(this.password);
         }
     }">
     <div class="relative">
@@ -72,7 +72,7 @@
             value="{{ old($name) }}"
         >
         <button 
-            type="button"
+            type="button" tabindex="-1"
             @click="showPassword = !showPassword"
             class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
         >
@@ -91,25 +91,25 @@
     </div>
 
         <div class="grid grid-cols-2 gap-2 mt-2">
-            <div class="flex items-center gap-1.5 text-xs" :class="passwordRequirements.length ? 'text-green-600' : 'text-gray-500'">
+            <div class="flex items-center gap-1 text-xs" :class="passwordRequirements.length ? 'text-green-600' : 'text-gray-500'">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
                 {{ __('auth.password_min_length') }}
             </div>
-            <div class="flex items-center gap-1.5 text-xs" :class="passwordRequirements.uppercase ? 'text-green-600' : 'text-gray-500'">
+            <div class="flex items-center gap-1 text-xs" :class="passwordRequirements.mixedcase ? 'text-green-600' : 'text-gray-500'">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
-                {{ __('auth.password_uppercase') }}
+                {{ __('auth.password_mixedcase') }}
             </div>
-            <div class="flex items-center gap-1.5 text-xs" :class="passwordRequirements.lowercase ? 'text-green-600' : 'text-gray-500'">
+            <div class="flex items-center gap-1 text-xs" :class="passwordRequirements.symbol ? 'text-green-600' : 'text-gray-500'">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>
-                {{ __('auth.password_lowercase') }}
+                {{ __('auth.password_symbol') }}
             </div>
-            <div class="flex items-center gap-1.5 text-xs" :class="passwordRequirements.number ? 'text-green-600' : 'text-gray-500'">
+            <div class="flex items-center gap-1 text-xs" :class="passwordRequirements.number ? 'text-green-600' : 'text-gray-500'">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                 </svg>

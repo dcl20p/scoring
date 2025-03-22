@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class School extends Model
 {
@@ -42,6 +43,22 @@ class School extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+    /**
+     * Get the unique identifier for this school.
+     *
+     * @return string
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($school) {
+            $school->code = Str::substr(
+                str_replace('-', '', Str::uuid()), 0, 16
+            );
+        });
+    }
 
     /**
      * Get the users that belong to the school.

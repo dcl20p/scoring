@@ -134,10 +134,12 @@
                     <x-dropdowns.item href="javascript:void(0);" icon="list-check">
                         <p class="text-sm">{{ __('dashboard.profile.my_task') }}</p>
                     </x-dropdowns.item>
-                    <div class="px-4 mt-[7px] grid">
-                        <x-buttons.gradient href="{{ route('logout') }}">
-                            {{ __('dashboard.profile.logout') }}
-                        </x-buttons.gradient>
+                    <div class="px-4 mt-[7px] grid place-items-center">
+                        <x-forms.form method="POST" action="{{ route('logout') }}" classes="">
+                            <x-buttons.gradient type="submit">
+                                {{ __('dashboard.profile.logout') }}
+                            </x-buttons.gradient>
+                        </x-forms.form>
                     </div>
                 </x-slot>
             </x-dropdowns.main>

@@ -43,7 +43,17 @@ return [
     'password_min_length' => 'At least 8 characters',
     'password_uppercase' => 'Contains uppercase letter',
     'password_lowercase' => 'Contains lowercase letter',
+    'password_mixedcase' => 'Contains mixed case letters',
     'password_number' => 'Contains number',
+    'password_symbol' => 'Contains symbol',
+
+    // Flash Messages
+    'registration_success' => 'Your account has been created successfully!',
+    'registration_failed' => 'An error occurred while creating your account.',
+    'login_success' => 'You have successfully logged in!',
+    'logout_success' => 'You have been logged out successfully!',
+    'reset_success' => 'Your password has been reset successfully!',
+    'reset_error' => 'An error occurred while resetting your password.',
     
     // Terms and policy
     'terms_agreement' => 'By creating an account, you agree to our',

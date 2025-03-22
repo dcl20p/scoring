@@ -23,7 +23,8 @@
     {{-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script> --}}
 </head>
 <body class="font-sans antialiased bg-gradient-to-br from-white to-gray-100 min-h-screen flex flex-col">
-   <!-- Enhanced decorative background effect -->
+    <x-flash-message />
+    <!-- Enhanced decorative background effect -->
    <div class="fixed inset-0 -z-10 w-full h-full overflow-hidden">
         <div class="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] rounded-full bg-purple-500/15 blur-3xl"></div>
         <div class="absolute -bottom-[20%] -right-[10%] w-[60%] h-[60%] rounded-full bg-blue-600/15 blur-3xl"></div>

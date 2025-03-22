@@ -43,7 +43,17 @@ return [
     'password_min_length' => 'Ít nhất 8 ký tự',
     'password_uppercase' => 'Có chứa chữ hoa',
     'password_lowercase' => 'Có chứa chữ thường',
+    'password_mixedcase' => 'Có chứa chữ thường và chữ in hoa',
     'password_number' => 'Có chứa số',
+    'password_symbol' => 'Có chứa ký tự đặc biệt',
+
+    // Flash Messages
+    'registration_success' => 'Tài khoản của bạn đã được tạo thành công!',
+    'registration_failed' => 'Đã xảy ra lỗi khi tạo tài khoản.',
+    'login_success' => 'Bạn đã đăng nhập thành công!',
+    'logout_success' => 'Bạn đã đăng xuất thành công!',
+    'reset_success' => 'Mật khẩu của bạn đã được đặt lại thành công!',
+    'reset_error' => 'Đã xảy ra lỗi khi đặt lại mật khẩu.',
     
     // Terms and policy
     'terms_agreement' => 'Bằng cách tạo tài khoản, bạn đồng ý với',
