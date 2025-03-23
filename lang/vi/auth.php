@@ -85,4 +85,15 @@ return [
     'register_school_button' => 'Đăng ký trường học',
     'registering_school' => 'Đang đăng ký trường học...',
     'enter_school' => 'Nhập thông tin trường học của bạn',
+
+    // Send mail
+    'verify_email_subject' => 'Xác thực địa chỉ email',
+    'verify_email_title' => 'Xác thực địa chỉ email của bạn',
+    'verify_email_description' => 'Cảm ơn bạn đã đăng ký! Trước khi bắt đầu, vui lòng xác thực địa chỉ email của bạn bằng cách nhấp vào liên kết chúng tôi vừa gửi.',
+    'verify_email_line1' => 'Vui lòng nhấp vào nút bên dưới để xác thực địa chỉ email của bạn.',
+    'verify_email_line2' => 'Nếu bạn không tạo tài khoản, bạn có thể bỏ qua email này.',
+    'verify_email_button' => 'Xác thực địa chỉ email',
+    'verification_link_sent' => 'Một liên kết xác thực mới đã được gửi đến địa chỉ email của bạn.',
+    'email_verified' => 'Email của bạn đã được xác thực!',
+    'resend_verification_email' => 'Gửi lại email xác thực',
 ];

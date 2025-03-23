@@ -16,6 +16,7 @@
             :type="showPassword ? 'text' : 'password'"
             placeholder="{{ $placeholder }}"
             required="{{ $required }}"
+            autocomplete="{{ $autocomplete }}"
             {{ $attributes->merge([
                 'class' => 'h-12 w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary'
             ]) }}
@@ -66,6 +67,7 @@
             @input="checkPasswordRequirements()"
             placeholder="{{ $placeholder }}"
             required="{{ $required }}"
+            autocomplete="{{ $autocomplete }}"
             {{ $attributes->merge([
                 'class' => 'h-12 w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary'
             ]) }}

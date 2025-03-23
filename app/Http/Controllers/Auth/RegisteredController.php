@@ -120,4 +120,9 @@ class RegisteredController extends Controller
 
         return Validator::make($data, $rules);
     }
+
+    public function registerMember(Request $request, $id)
+    {
+        return view('auth.register-member');
+    }
 }

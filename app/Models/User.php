@@ -10,6 +10,8 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
+    use \Illuminate\Auth\MustVerifyEmail;
+    
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -168,5 +170,13 @@ class User extends Authenticatable implements MustVerifyEmail
     public function gradesGiven()
     {
         return $this->hasMany(Grade::class, 'graded_by');
+    }
+
+     /**
+     * Get the courses taught by this teacher.
+     */
+    public function logs()
+    {
+        return $this->hasMany(Log::class, 'user_id');
     }
 }

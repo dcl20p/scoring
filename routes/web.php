@@ -4,62 +4,68 @@ use App\Http\Controllers\Auth\RegisteredController;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\LogController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('pages.landing');
-})->name('landing');
+// Landing page
+Route::get('/', fn() => view('pages.landing'))->name('landing');
 
-// Language Route
+// Language switcher
 Route::get('language/{locale}', [LanguageController::class, 'change'])->name('language.change');
 
+// Guest routes
 Route::middleware('guest')->group(function () {
-    Route::get('/register', [RegisteredController::class, 'create'])->name('register');
-    Route::post('/register', [RegisteredController::class, 'registerAdmin'])->name('register.store');
-    Route::get('/register/{school_code}', [RegisteredController::class, 'registerMember'])->name('register.member');
+    // Registration
+    Route::controller(RegisteredController::class)->group(function () {
+        Route::get('/register', 'create')->name('register');
+        Route::post('/register', 'registerAdmin')->name('register.store');
+        Route::get('/register/{school_code}', 'registerMember')->name('register.member');
+    });
 
-    
-    Route::get('/login', [SessionController::class, 'create'])->name('login');
-    Route::post('/login', [SessionController::class, 'store'])->name('login.store');
+    // Authentication
+    Route::controller(SessionController::class)->group(function () {
+        Route::get('/login', 'create')->name('login');
+        Route::post('/login', 'store')->name('login.store');
+    });
 
-    Route::get('/forgot-password', function() {
-        return view('auth.forgot-password');
-    })->name('password.request');
-
-    Route::get('/reset-password/{token', function() {
-        return view('auth.login');
-    })->name('password.reset');
-
-    // Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-    // Route::post('/login', [LoginController::class, 'login']);
-    
-    // Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-    // Route::post('/register', [RegisterController::class, 'register']);
-    
-    // Route::get('/forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
-    // Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
-    
-    // Route::get('/reset-password/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
-    // Route::post('/reset-password', [ResetPasswordController::class, 'reset'])->name('password.update');
+    // Password Reset
+    Route::get('/forgot-password', fn() => view('auth.forgot-password'))->name('password.request');
+    Route::get('/reset-password/{token}', fn() => view('auth.login'))->name('password.reset');
 });
 
+// Email verification
 Route::middleware('auth')->group(function () {
-    Route::post('/logout', [SessionController::class,'destroy'])->name('logout');
-
-    Route::get('/dashboard', function() {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/email/verify', fn() => view('auth.verify-email'))->name('verification.notice');
+    
+    Route::middleware('signed')->get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect()->route('dashboard')->with('success', __('auth.email_verified'));
+    })->name('verification.verify');
+    
+    Route::middleware('throttle:6,1')->post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('success', __('auth.verification_link_sent'));
+    })->name('verification.send');
 });
 
-// Terms and Privacy Policy routes
-Route::get('/terms', function () {
-    return view('pages.terms');
-})->name('terms');
+// Authenticated routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');
+    Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
+});
 
-Route::get('/privacy', function () {
-    return view('pages.privacy');
-})->name('privacy');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
+});
 
-// Contact routes
-Route::get('/contact', [ContactController::class, 'showContactForm'])->name('contact');
-Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('contact.submit');
+// Public pages
+Route::get('/terms', fn() => view('pages.terms'))->name('terms');
+Route::get('/privacy', fn() => view('pages.privacy'))->name('privacy');
+
+// Contact
+Route::controller(ContactController::class)->group(function () {
+    Route::get('/contact', 'showContactForm')->name('contact');
+    Route::post('/contact', 'submitContactForm')->name('contact.submit');
+});

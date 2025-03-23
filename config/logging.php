@@ -126,7 +126,18 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
-
+        'database' => [
+            'driver' => 'custom',
+            'via' => \App\Logging\DatabaseLogger::class,
+            'level' => env('LOG_LEVEL', 'debug'),
+        ],
+        'query' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/query.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_DAILY_DAYS', 14),
+            'replace_placeholders' => true,
+        ],
     ],
 
 ];

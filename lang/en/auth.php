@@ -91,5 +91,17 @@ return [
     'school_type_elementary_school' => 'Elementary School',
     'school_type_preschool' => 'Preschool',
     'school_type_prompt' => 'Select the type of school you are registering',
+
+    // Send mail
+    'verify_email_subject' => 'Verify Email Address',
+    'verify_email_title' => 'Verify Your Email Address',
+    'verify_email_description' => 'Thanks for signing up! Before getting started, could you verify your email address by clicking on the link we just emailed to you?',
+    'verify_email_line1' => 'Please click the button below to verify your email address.',
+    'verify_email_line2' => 'If you did not create an account, no further action is required.',
+    'verify_email_button' => 'Verify Email Address',
+    'verification_link_sent' => 'A new verification link has been sent to your email address.',
+    'email_verified' => 'Your email has been verified!',
+    'resend_verification_email' => 'Resend Verification Email',
+    
 ];
 
