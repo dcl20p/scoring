@@ -45,10 +45,10 @@ class DatabaseLogger extends AbstractProcessingHandler
         Log::create([
             'level' => $record->level->getName(),
             'message' => $record->message,
+            'url' => $url,
             'context' => array_merge($context, [
                 'route' => $routeName,
                 'method' => $method,
-                'url' => $url,
                 'referer' => $request->headers->get('referer'),
                 'channel' => $record->channel
             ]),

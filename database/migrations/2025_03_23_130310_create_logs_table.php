@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->string('level')->index();
+            $table->string('level');
+            $table->string('url');
             $table->text('message');
             $table->json('context')->nullable();
             $table->json('extra')->nullable();
@@ -30,6 +31,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Indexes
+            $table->index('level');
             $table->index('user_id');
             $table->index('user_type');
             $table->index('ip_address');

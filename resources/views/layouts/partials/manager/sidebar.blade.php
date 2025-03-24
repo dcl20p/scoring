@@ -1,4 +1,5 @@
-<aside id="sidebar" class="w-[270px] bg-white border border-gray-200 dark:bg-black/100 dark:border-gray-800 top-0 left-0 with-vertical transform -translate-x-full xl:block xl:translate-x-0 xl:end-auto xl:bottom-0 fixed xl:top-5 xl:left-auto shrink-0 h-screen z-[999] shadow-md xl:rounded-md transition-all duration-300 ease-in-out hs-overlay hs-overlay-open:translate-x-0 left-sidebar">
+<aside id="sidebar" 
+    class="w-[270px] bg-white border border-gray-200 dark:bg-black/100 dark:border-gray-800 top-0 left-0 with-vertical transform -translate-x-full xl:block xl:translate-x-0 xl:end-auto xl:bottom-0 fixed xl:top-5 xl:left-auto shrink-0 h-screen shadow-md xl:rounded-md transition-all duration-300 ease-in-out hs-overlay hs-overlay-open:translate-x-0 left-sidebar">
     <div class="p-4 flex items-center justify-center">
         <a href="/">
             <x-logo size="text-3xl"/>

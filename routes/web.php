@@ -58,7 +58,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
+    Route::delete('/logs/bulk-delete', [LogController::class, 'bulkDestroy'])->name('logs.bulk-delete');
+    Route::delete('/logs/{log}', [LogController::class, 'destroy'])->name('logs.destroy');
 });
+
 
 // Public pages
 Route::get('/terms', fn() => view('pages.terms'))->name('terms');

@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         DB::listen(function ($query) {
-            // Only log slow queries (>100ms)
+            // Only log slow queries (>500ms)
             if ($query->time < 500) {
                 return;
             }

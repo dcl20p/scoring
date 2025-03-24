@@ -14,6 +14,7 @@ class Log extends Model
 
     protected $fillable = [
         'level',
+        'url',
         'message',
         'context',
         'extra',

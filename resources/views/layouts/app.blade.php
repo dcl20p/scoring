@@ -46,5 +46,6 @@
         </div>
     </div>
     
+    <x-modals.base></x-modals.base>
 </body>
 </html>

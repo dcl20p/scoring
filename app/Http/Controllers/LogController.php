@@ -36,9 +36,30 @@ class LogController extends Controller
 
         $logs = $query->with('user')
                      ->latest()
-                     ->paginate(20)
+                     ->paginate(perPage: 10)
                      ->withQueryString();
 
         return view('admin.logs.index', compact('logs'));
+    }
+
+    public function destroy(Log $log)
+    {
+        try {
+            $log->delete();
+            return back()->with('success', __('logs.delete_success'));
+        } catch (\Exception $e) {
+            return back()->with('error', __('logs.delete_error'));
+        }
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        try {
+            $ids = json_decode($request->ids);
+            $count = Log::whereIn('id', $ids)->delete();
+            return back()->with('success', __('logs.delete_selected_success', ['count' => $count]));
+        } catch (\Exception $e) {
+            return back()->with('error', __('logs.delete_error')); 
+        }
     }
 }

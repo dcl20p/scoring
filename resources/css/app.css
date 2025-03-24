@@ -24,6 +24,10 @@
         --input: 214.3 31.8% 91.4%;
         --ring: 211 100% 58%;
         --radius: 1.25rem;
+        --z-header: 30;
+        --z-sidebar: 40;
+        --z-dropdown: 50;
+        --z-modal: 100;
     }
 
     .dark {
@@ -247,11 +251,28 @@
     .dark .text-gray-700 {
         color: #cbd5e1;
     }
+    
+    .left-sidebar {
+        @apply z-[var(--z-sidebar)];
+    }
+
+    .top-header {
+        @apply z-[var(--z-header)];
+    }
+
+    .dropdown-wrapper {
+        @apply z-[var(--z-dropdown)];
+    }
+
+    .modal-wrapper {
+        @apply z-[var(--z-modal)];
+    }
 }
 
 @layer utilities {
     .scrollbar-custom {
-        @apply [&::-webkit-scrollbar]:w-2 
+        @apply [&::-webkit-scrollbar]:w-2
+               [&::-webkit-scrollbar]:h-2 /* Thêm chiều cao cho scrollbar ngang */
                [&::-webkit-scrollbar-track]:rounded-full 
                [&::-webkit-scrollbar-track]:bg-gray-100 
                dark:[&::-webkit-scrollbar-track]:bg-gray-800
