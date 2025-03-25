@@ -2,20 +2,40 @@
 
 return [
     'title' => 'System Logs',
-    'total_entries' => ':count entries',
-    'delete_success' => 'Log deleted successfully',
-    'delete_selected_success' => ':count logs deleted successfully',
-    'delete_error' => 'Failed to delete log(s)',
-    'delete_confirmation' => 'Are you sure you want to delete this log?',
-    'delete_selected_confirmation' => 'Are you sure you want to delete :count selected logs?',
-    'filter' => [
-        'all_levels' => 'All Levels',
-        'search_placeholder' => 'Search by message or user...'
+    'breadcrumb' => [
+        'dashboard' => 'Dashboard',
+        'logs' => 'System Logs'
     ],
-    'actions' => [
-        'delete' => 'Delete',
-        'cancel' => 'Cancel',
-        'filter' => 'Filter',
-        'export' => 'Export'
-    ]
+    'filters' => [
+        'all_levels' => 'All Levels',
+        'search_placeholder' => 'Search by message or user...',
+        'filter_button' => 'Filter',
+        'export_button' => 'Export',
+        'search' => 'Search'
+    ],
+    'table' => [
+        'time' => 'Time',
+        'level' => 'Level',
+        'url' => 'URL',
+        'message' => 'Message',
+        'user' => 'User',
+        'actions' => 'Actions',
+        'total_entries' => 'Total: :count entries'
+    ],
+    'delete' => [
+        'title' => 'Delete Log',
+        'selected_title' => 'Delete Selected Logs',
+        'confirm' => 'Are you sure you want to delete this log?',
+        'confirm_selected' => 'Are you sure you want to delete :count selected logs?',
+        'success' => 'Log deleted successfully',
+        'success_selected' => ':count logs deleted successfully',
+        'error' => 'Failed to delete log(s)',
+        'button' => 'Delete',
+        'cancel' => 'Cancel'
+    ],
+    'modals' => [
+        'error_detail' => 'Error Details',
+        'close' => 'Close',
+    ],
+    'no_data' => 'No logs found',
 ];

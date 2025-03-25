@@ -61,7 +61,7 @@
             <div class="px-4 py-3 flex justify-end rounded-b-lg border-t dark:border-gray-700">
                 <button @click="open = false" 
                         class="px-4 py-2 bg-gray-700 dark:hover:bg-white/[0.03] dark:hover:text-gray-200 border dark:border-gray-600 text-white rounded-md hover:bg-gray-700">
-                    Close
+                    {{ __('log.modals.close') }}
                 </button>
             </div>
         </div>

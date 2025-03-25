@@ -2,20 +2,40 @@
 
 return [
     'title' => 'Nhật ký hệ thống',
-    'total_entries' => ':count mục',
-    'delete_success' => 'Log đã được xóa thành công!',
-    'delete_selected_success' => ':count logs đã được xóa thành công!',
-    'delete_error' => 'Có lỗi xảy ra khi xóa log.',
-    'delete_confirmation' => 'Bạn có chắc chắn muốn xóa log này?',
-    'delete_selected_confirmation' => 'Bạn có chắc chắn muốn xóa :count logs đã chọn?',
-    'filter' => [
-        'all_levels' => 'Tất cả các cấp độ',
-        'search_placeholder' => 'Tìm kiếm theo tin nhắn hoặc người dùng...'
+    'breadcrumb' => [
+        'dashboard' => 'Trang chủ',
+        'logs' => 'Nhật ký hệ thống'
     ],
-    'actions' => [
-        'delete' => 'Xóa',
-        'cancel' => 'Hủy',
-        'filter' => 'Lọc',
-        'export' => 'Xuất'
-    ]
+    'filters' => [
+        'all_levels' => 'Tất cả cấp độ',
+        'search_placeholder' => 'Tìm theo nội dung hoặc người dùng...',
+        'filter_button' => 'Lọc',
+        'export_button' => 'Xuất',
+        'search' => 'Tìm kiếm'
+    ],
+    'table' => [
+        'time' => 'Thời gian',
+        'level' => 'Cấp độ',
+        'url' => 'URL',
+        'message' => 'Nội dung',
+        'user' => 'Người dùng',
+        'actions' => 'Tác vụ',
+        'total_entries' => 'Tổng: :count mục'
+    ],
+    'delete' => [
+        'title' => 'Xóa nhật ký',
+        'selected_title' => 'Xóa nhật ký đã chọn',
+        'confirm' => 'Bạn có chắc chắn muốn xóa nhật ký này?',
+        'confirm_selected' => 'Bạn có chắc chắn muốn xóa :count nhật ký đã chọn?',
+        'success' => 'Đã xóa nhật ký thành công',
+        'success_selected' => 'Đã xóa :count nhật ký thành công',
+        'error' => 'Không thể xóa (các) nhật ký',
+        'button' => 'Xóa',
+        'cancel' => 'Hủy'
+    ],
+    'modals' => [
+        'error_detail' => 'Chi tiết lỗi',
+        'close' => 'Đóng',
+    ],
+    'no_data' => 'Không có dữ liệu nhật ký',
 ];
