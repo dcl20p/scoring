@@ -15,5 +15,7 @@ return [
 
     'previous' => '&laquo; Previous',
     'next' => 'Next &raquo;',
+    'previous_custom' => 'Previous',
+    'next_custom' => 'Next',
 
 ];
