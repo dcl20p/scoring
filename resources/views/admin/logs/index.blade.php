@@ -4,17 +4,10 @@
         <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
             <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ __('log.title') }}</h1>
             
-            <nav aria-label="Breadcrumb">
-                <ol class="inline-flex items-center">
-                    <li class="text-gray-500 dark:text-gray-400">{{ __('log.breadcrumb.dashboard') }}</li>
-                    <li class="flex items-center">
-                        <svg class="stroke-current mx-2" width="17" height="16" viewBox="0 0 17 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M6.0765 12.667L10.2432 8.50033L6.0765 4.33366" stroke="" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                        <span class="text-gray-800 font-semibold dark:text-gray-400">{{ __('log.breadcrumb.logs') }}</span>
-                    </li>
-                </ol>
-            </nav>
+            <x-breadcrumb.main :items="[
+                ['label' => __('log.breadcrumb.dashboard'), 'url' => route('dashboard')],
+                ['label' => __('log.breadcrumb.logs')]
+            ]" />
         </div>
 
         <!-- Filters Card -->

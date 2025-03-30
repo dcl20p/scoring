@@ -14,7 +14,7 @@
 
     <!-- Styles / Scripts -->
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
-        @vite(['resources/css/guest.css', 'resources/js/guest.js'])
+        @vite(['resources/css/guest.css', 'resources/js/guest.js', 'resources/js/flash-message.js'])
     @else
         <link rel="stylesheet" href="{{ asset('css/fallback.css') }}">
     @endif
@@ -56,5 +56,14 @@
     
     <!-- Toast Notifications Container -->
     <div id="toast-container" class="fixed bottom-4 right-4 z-50"></div>
+    @if (session()->has('success') || session()->has('error'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                let type = "{{ session()->has('success') ? 'success' : 'error' }}";
+                let message = "{{ session()->has('success') ? session('success') : session('error') }}";
+                showFlashMessage(type, message);
+            });
+        </script>
+    @endif
 </body>
 </html>

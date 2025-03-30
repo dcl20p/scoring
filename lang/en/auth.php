@@ -38,6 +38,7 @@ return [
     'already_have_account' => 'Already have an account?',
     'sign_in' => 'Sign in',
     'phone' => 'Phone',
+    'loading_register' => 'Creating account...',
     
     // Password requirements
     'password_min_length' => 'At least 8 characters',

@@ -17,12 +17,12 @@
                     </p>
                 </div>
                 
-                <x-forms.form method="POST" action="{{ route('register.store') }}">
+                <x-forms.form id="form-register-admin">
                     <input type="hidden" name="role" value="SUPER_ADMIN">
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <!-- Left Column: Administrator Information Section -->
                         <div>
-                            <div class="flex items-center mb-4">
+                            <div class="flex items-center">
                                 <div class="bg-blue-100 rounded-full p-2 mr-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -40,6 +40,7 @@
                                     placeholder="John" 
                                     required 
                                     autocomplete="given-name" 
+                                    :api="true"
                                 />
 
                                 <x-forms.field 
@@ -50,6 +51,7 @@
                                     placeholder="Doe" 
                                     required 
                                     autocomplete="given-name" 
+                                    :api="true"
                                 />
                             </div>
                             
@@ -61,6 +63,7 @@
                                 placeholder="your@example.com" 
                                 required 
                                 autocomplete="email" 
+                                :api="true"
                             />
                             
                             <x-forms.phone-group name="phone" id="phone" label="{{ __('auth.phone') }}"/>
@@ -76,6 +79,7 @@
                                 required 
                                 autocomplete="new_password"
                                 :passwordStrength="true"
+                                :api="true"
                             />
 
                             <x-forms.field 
@@ -87,11 +91,12 @@
                                 placeholder="••••••••" 
                                 required 
                                 autocomplete="new_password"
+                                :api="true"
                             />
                         </div>
                         <!-- Right Column: School Information Section -->
                         <div>
-                            <div class="flex items-center mb-4">
+                            <div class="flex items-center">
                                 <div class="bg-blue-100 rounded-full p-2 mr-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -107,6 +112,7 @@
                                 type="text" 
                                 placeholder="{{ __('auth.enter_school') }}" 
                                 required 
+                                :api="true"
                             />
 
                             <div class="grid grid-cols-2 gap-4">
@@ -116,6 +122,7 @@
                                     label="{{ __('auth.province') }}" 
                                     type="text" 
                                     placeholder="Tp.HCM" 
+                                    :api="true"
                                 />
 
                                 <x-forms.field 
@@ -124,6 +131,7 @@
                                     label="{{ __('auth.district') }}" 
                                     type="text" 
                                     placeholder="Gò Vấp" 
+                                    :api="true"
                                 />
                             </div>
 
@@ -142,6 +150,7 @@
                                 ]"
                                 placeholder="{{ __('auth.select_school_type') }}"
                                 required
+                                :api="true"
                             />
 
                             <x-forms.field 
@@ -153,8 +162,9 @@
                                 class="my-2"
                                 classLabel="mt-2"
                                 required 
+                                :api="true"
                                 autocomplete="email" >
-                                <p class="mt-1 mb-7 text-xs text-gray-500">{{ __('auth.school_email_help') }}</p>
+                                <p class="mt-2 mb-8 text-xs text-gray-500">{{ __('auth.school_email_help') }}</p>
                             </x-forms.field>
 
                             <x-forms.field 
@@ -163,6 +173,7 @@
                                 label="{{ __('auth.website') }}" 
                                 type="text" 
                                 class="pl-10 my-2"
+                                :api="true"
                                 placeholder="https://school.edu" 
                             >
                                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -177,8 +188,9 @@
                     
                     <x-agree-terms />
 
-                    <x-forms.button class="lg:w-5/12" type="submit">
-                        {{ __("auth.register_school_button") }}
+                    <x-forms.button class="lg:w-5/12" id="btn-register" :api="true">
+                        <x-icons.loading-button id="icon-loading-register" class="hidden"/>
+                        <span id="btn-text">{{ __("auth.register_school_button") }}</span>
                     </x-forms.button>
                     
                     <div class="text-center mt-4">
@@ -194,3 +206,61 @@
         </div>
     </div>
 </x-guest-layout>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const registerButton = document.getElementById('btn-register');
+        const adminFormRegister = document.getElementById('form-register-admin');
+
+        registerButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+            let self = this;
+            let iconLoading = document.getElementById('icon-loading-register');
+            let textBtn = document.getElementById('btn-text');
+            iconLoading.classList.remove('hidden');
+            self.disabled = true;
+            textBtn.textContent  = "{{ __('auth.loading_register') }}";
+
+            const formData = new FormData(adminFormRegister);
+            fetch("{{ route('api.register.store') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                self.disabled = false;
+                textBtn.textContent  = "{{ __('auth.register_school_button') }}";
+                iconLoading.classList.add('hidden');
+                
+                if (data.status === 'success') {
+                    showFlashMessage(data.status, data.message);
+                    window.location.href = data.data.verify_url;
+                } else {
+                    // Show error messages
+                    if (data.message) {
+                        showFlashMessage(data.status, data.message);
+                    }
+                    
+                    // Show validation errors
+                    if (data.errors) {
+                        Object.keys(data.errors).forEach(field => {
+                            const errorElement = document.getElementById(`${field}-error`);
+                            if (errorElement) {
+                                errorElement.textContent = data.errors[field][0];
+                            }
+                        });
+                    }
+                }
+            })
+            .catch(error => {
+                self.disabled = false;
+                textBtn.textContent = "{{ __('auth.register_school_button') }}";
+                console.error('Registration error:', error);
+            });
+        });
+    });
+</script>

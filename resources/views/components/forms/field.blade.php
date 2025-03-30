@@ -6,10 +6,11 @@
     'placeholder' => '',
     'autocomplete' => null,
     'required' => false,
-    'classLabel' => ''
+    'classLabel' => '',
+    'api' => false
 ])
 
-<div class="space-y-2">
+<div class="space-y-2 mb-2">
     @if ($label)
         <x-forms.label class="{{ $classLabel }}" for="{{ $id }}">{{ $label }}</x-forms.label>
     @endif
@@ -28,10 +29,12 @@
                 :autocomplete="$autocomplete"
                 :required="$required"
                 {{ $attributes }}
-            />
+            >
+                <x-slot name="showError">
+                    <x-forms.error :error="$errors->first($name)" name="{{ $name }}" :api="$api"/>
+                </x-slot>
+            </x-forms.input>
             {{ $slot }}
         </div>
     @endif
-
-    <x-forms.error :error="$errors->first($name)" />
 </div>

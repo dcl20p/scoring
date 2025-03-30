@@ -1,48 +1,33 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\School;
-use App\Models\Student;
 use App\Models\User;
 use DB;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
-use Illuminate\Validation\ValidationException;
 
 class RegisteredController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Register a new user
      *
-     * @return void
-     */
-    public function __construct()
-    {
-        // $this->middleware('guest');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create(Request $request)
-    {
-        return view('auth.register');
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function registerAdmin(Request $request)
     {
-        $this->validator($request->all())->validate();
+        $validator = $this->validator($request->all());
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
 
         try {
             DB::beginTransaction();
@@ -66,24 +51,51 @@ class RegisteredController extends Controller
                 'password' => Hash::make($request->password),
                 'role' => $request->role,
             ]);
-            event(new Registered($user ));
-
+            event(new Registered($user));
+            
             DB::commit();
 
-            Auth::login($user);
-    
-            return redirect(route('dashboard', absolute: false))
-                ->with('success', __('auth.registration_success'));
+            $deviceName = $request->device_name ?? $request->userAgent() ?? 'unknown';
+            $token = $user->createToken($deviceName)->plainTextToken;
 
-        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'success',
+                'message' => __('auth.registration_success'),
+                'data' => [
+                    'school' => [
+                        'id' => $school->id,
+                        'name' => $school->name,
+                        'code' => $school->code,
+                    ],
+                    'user' => [
+                        'id' => $user->id,
+                        'first_name' => $user->first_name,
+                        'last_name' => $user->last_name,
+                        'email' => $user->email,
+                        'role' => $user->role,
+                    ],
+                    'verify_url' => route('verification.notice'),
+                    'token' => $token,
+                    'token_type' => 'Bearer',
+                ]
+            ], 201);
+        } catch (\Throwable $e) {
             DB::rollBack();
-            Log::error('Registration error: ' . $e->getMessage());
-            return redirect()->back()
-                ->withInput($request->except('password', 'password_confirmation'))
-                ->with('error', __('auth.registration_failed'));
+            Log::error('API Registration error: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => __('auth.registration_failed'),
+                'errors' => $e->getMessage()
+            ], 500);
         }
     }
 
+    /**
+     * Validate the data
+     * 
+     * @param array $data
+     * @return \Illuminate\Validation\Validator
+     */
     protected function validator(array $data)
     {
         $rules = [
@@ -119,10 +131,5 @@ class RegisteredController extends Controller
         }
 
         return Validator::make($data, $rules);
-    }
-
-    public function registerMember(Request $request, $id)
-    {
-        return view('auth.register-member');
     }
 }

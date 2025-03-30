@@ -16,7 +16,7 @@
     <!-- Scripts -->
     @include('layouts.partials.manager.no-script-simplebar')
     
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/dashboard.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/dashboard.js', 'resources/js/flash-message.js'])
 </head>
 <body
     x-data="{ darkMode: localStorage.getItem('darkMode') === 'true' }"
@@ -47,5 +47,14 @@
     </div>
     
     <x-modals.base></x-modals.base>
+    @if (session()->has('success') || session()->has('error'))
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                let type = "{{ session()->has('success') ? 'success' : 'error' }}";
+                let message = "{{ session()->has('success') ? session('success') : session('error') }}";
+                showFlashMessage(type, message);
+            });
+        </script>
+    @endif
 </body>
 </html>

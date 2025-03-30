@@ -38,6 +38,7 @@ return [
     'already_have_account' => 'Đã có tài khoản?',
     'sign_in' => 'Đăng nhập',
     'phone' => 'Số điện thoại',
+    'loading_register' => 'Đang tạo tài khoản...',
     
     // Password requirements
     'password_min_length' => 'Ít nhất 8 ký tự',
