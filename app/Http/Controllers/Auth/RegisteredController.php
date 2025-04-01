@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\DeviceHelper;
 use App\Http\Controllers\Controller;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\User;
+use App\Models\UserDevice;
+use App\Models\UserSession;
 use DB;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
@@ -13,22 +16,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
 class RegisteredController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        // $this->middleware('guest');
-    }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -66,11 +60,14 @@ class RegisteredController extends Controller
                 'password' => Hash::make($request->password),
                 'role' => $request->role,
             ]);
+
             event(new Registered($user ));
 
             DB::commit();
 
             Auth::login($user);
+            
+            $this->createUserDeviceAndSession($user, $request);
     
             return redirect(route('dashboard', absolute: false))
                 ->with('success', __('auth.registration_success'));
@@ -81,6 +78,62 @@ class RegisteredController extends Controller
             return redirect()->back()
                 ->withInput($request->except('password', 'password_confirmation'))
                 ->with('error', __('auth.registration_failed'));
+        }
+    }
+
+    private function createUserDeviceAndSession(User $user, Request $request): void
+    {
+        $userAgent = $request->userAgent();
+        $ipAddress = $request->ip();
+        $deviceId = UserDevice::generateDeviceId($userAgent, $ipAddress, $user->id);
+        $deviceName = DeviceHelper::determineDeviceName($userAgent);
+        
+        // Create or update device record
+        UserDevice::updateOrCreate(
+            ['user_id' => $userId = $user->id, 'device_id' => $deviceId],
+            [
+                'device_name' => $deviceName,
+                'user_agent' => $userAgent,
+                'ip_address' => $ipAddress,
+                'last_used_at' => now(),
+            ]
+        );
+
+        $ttl = config('session.lifetime') * 60;
+
+        // Create session record
+        UserSession::create([
+            'user_id' => $userId,
+            'device_id' => $deviceId,
+            'last_active_at' => now(),
+            'expires_at' => now()->addSeconds($ttl)
+        ]);
+
+        $sessionId = session()->getId(); 
+
+        $this->invalidateOtherSessions($userId, $sessionId, $deviceId);
+
+        // Save session to Redis
+        $ttl = config('session.lifetime') * 60;
+        Redis::setex("user:{$user->id}:session:device:{$deviceId}", $ttl, $sessionId);
+    }
+
+    /**
+     * @param int $userId
+     * @param string $newSessionId
+     * @return void
+     */
+    private function invalidateOtherSessions(int $userId, string $newSessionId, string $deviceId): void
+    {
+        // Get old session from Redis
+        $oldSessionId = Redis::get("user:{$userId}:session:device:{$deviceId}");
+
+        if ($oldSessionId && $oldSessionId !== $newSessionId) {
+            // Delete old session from Redis
+            Redis::del("user:{$userId}:session");
+
+            // Delete session from Laravel (if stored in Redis)
+            Redis::del(config("database.redis.options.prefix") . $oldSessionId);
         }
     }
 

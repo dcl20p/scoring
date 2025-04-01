@@ -60,6 +60,6 @@ class UserDevice extends Model
      */
     public static function generateDeviceId($userAgent, $ipAddress, $userId)
     {
-        return hash('sha256', $userAgent . $ipAddress . $userId . time());
+        return hash('sha256', $userAgent . $ipAddress . $userId);
     }
 }
