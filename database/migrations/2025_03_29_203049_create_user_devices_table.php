@@ -16,11 +16,14 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('device_id');
             $table->string('device_name');
-            $table->string('user_agent');
-            $table->string('ip_address');
+            $table->string('user_agent')->nullable();
+            $table->string('ip_address')->nullable();
+            $table->boolean('is_trusted')->default(false);
             $table->timestamp('last_used_at')->nullable();
             $table->timestamps();
-
+            
+            // Indexes 
+            $table->index('is_trusted');
             $table->unique(['user_id', 'device_id']);
         });
     }

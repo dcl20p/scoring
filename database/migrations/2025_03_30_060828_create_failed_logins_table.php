@@ -13,13 +13,17 @@ return new class extends Migration
     {
         Schema::create('failed_logins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('device_id');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->string('device_id')->nullable();
             $table->string('device_name')->nullable();
             $table->string('user_agent')->nullable();
             $table->string('ip_address')->nullable();
             $table->timestamp('last_used_at')->nullable();
             $table->timestamps();
+
+            // Indexes
+            $table->index('user_id');
+            $table->index('ip_address');
         });
     }
 

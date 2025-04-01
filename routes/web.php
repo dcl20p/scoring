@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RegisteredController;
 use App\Http\Controllers\Auth\SessionController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DeviceController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\LogController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -48,18 +49,28 @@ Route::middleware('auth')->group(function () {
         $request->user()->sendEmailVerificationNotification();
         return back()->with('success', __('auth.verification_link_sent'));
     })->name('verification.send');
+
 });
 
 // Authenticated routes
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/logout', [SessionController::class, 'destroy'])->name('logout');
     Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
+    
 });
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
     Route::delete('/logs/bulk-delete', [LogController::class, 'bulkDestroy'])->name('logs.bulk-delete');
     Route::delete('/logs/{log}', [LogController::class, 'destroy'])->name('logs.destroy');
+});
+
+// Device Management Routes
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/devices', [DeviceController::class, 'devices'])->name('devices');
+    Route::put('/devices/{deviceId}', [DeviceController::class, 'updateDeviceTrust'])->name('devices.update');
+    Route::delete('/devices/{deviceId}', [DeviceController::class, 'removeDevice'])->name('devices.destroy');
+    Route::post('/logout/all', [DeviceController::class, 'logoutAll'])->name('logout.all');
 });
 
 

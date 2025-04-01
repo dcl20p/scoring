@@ -17,12 +17,16 @@
             @endif
 
             <div class="flex items-center justify-between mt-4">
+                <x-buttons.gradient theme="purple_blue" href="{{ route('landing') }}">
+                    {{ __('privacy.back_to_home') }}
+                </x-buttons.gradient>
+
                 <x-forms.form action="{{ route('verification.send') }}">
                     <x-buttons.gradient type="submit" theme="green_blue">
                         {{ __('auth.resend_verification_email') }}
                     </x-buttons.gradient>
                 </x-forms.form>
-
+                
                 <x-forms.form action="{{ route('logout') }}">
                     <x-buttons.gradient>
                         {{ __('dashboard.profile.logout') }}

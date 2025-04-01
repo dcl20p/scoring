@@ -180,4 +180,40 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Log::class, 'user_id');
     }
+
+    /**
+     * Get the devices associated with this user.
+     */
+    public function devices()
+    {
+        return $this->hasMany(UserDevice::class);
+    }
+
+    /**
+     * Get the sessions associated with this user.
+     */
+    public function sessions()
+    {
+        return $this->hasMany(UserSession::class);
+    }
+
+    /**
+     * Get the failed login attempts associated with this user.
+     */
+    public function failedLogins()
+    {
+        return $this->hasMany(FailedLogin::class);
+    }
+
+    /**
+     * Check if the user has reached the maximum number of failed login attempts.
+     *
+     * @param int $maxAttempts
+     * @param int $lockoutTime
+     * @return bool
+     */
+    public function hasReachedMaxLoginAttempts($maxAttempts = 5, $lockoutTime = 5)
+    {
+        return FailedLogin::getRecentAttempts($this->id, $lockoutTime) >= $maxAttempts;
+    }
 }
