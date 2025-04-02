@@ -20,7 +20,7 @@ class TrackUserSession
     public function handle(Request $request, Closure $next): Response
     {
         $response = $next($request);
-        
+
         // Only track sessions for authenticated users
         if (Auth::check()) {
             $user = Auth::user();
@@ -40,7 +40,7 @@ class TrackUserSession
                     ['last_used_at' => now(), 'ip_address' => $ipAddress]
                 );
                 
-                $session = UserSession::updateOrCreate(
+                UserSession::updateOrCreate(
                     ['user_id' => $user->id, 'device_id' => $deviceId],
                     ['last_active_at' => now(), 'expires_at' => now()->addSeconds($ttl)]
                 );
