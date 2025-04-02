@@ -37,7 +37,6 @@ return new class extends Migration
             $table->index('ip_address');
 
             $table->fullText('message');
-            $table->fullText('context');
         });
     }
 
